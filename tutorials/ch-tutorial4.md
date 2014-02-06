@@ -214,7 +214,7 @@ printSum sid = cast sid . Add
 launchMathServer :: Process ProcessId
 launchMathServer =
   let server = statelessProcess {
-      apiHandlers = [ handleRpcChan_ (\chan (Add x y) -> sendChan chan (x + y))
+      apiHandlers = [ handleRpcChan_ (\chan (Add x y) -> sendChan chan (x + y) >> continue_)
                     , handleCast_ (\(Add x y) -> liftIO $ putStrLn $ show (x + y) >> continue_) ]
     , unhandledMessagePolicy = Drop
     }
